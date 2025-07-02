@@ -10,13 +10,19 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         gap: 10,
         top: 30,
-        zIndex: 10
+        zIndex: 10,
+        paddingHorizontal: 5
     },
 
     icoHeader: {
         fontSize: 25,
         color: '#fff',
         padding: 10,
+    },
+    nasaLogo: {
+        width: 55,
+        height: 55,
+        resizeMode: 'contain',
     },
 
     searchBox: {
