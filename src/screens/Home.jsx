@@ -1,48 +1,89 @@
-import { ScrollView, Text, View, ImageBackground, Image } from 'react-native';
+import { ScrollView, Text, View, ImageBackground, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import { Video } from 'expo-av';
+import React, { useRef } from 'react';
+import LottieView from 'lottie-react-native';
 import { styles } from '../styles/home';
-import { planets } from '../data/planets';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
-// import StarField from '../components/Anim/StarField';
 import fondo from '../assets/imgs/fondo1.jpg';
-import slider1 from '../assets/imgs/system_solar.jpg';
-import vide1 from '../assets/videos/solar.mp4'
+import vide1 from '../assets/videos/solar.mp4';
+import NasaImageOfDay from '../components/Home/NasaImage';
+import VisitorCounter from '../components/Home/VisitorCounter';
+import AlienMessage from '../components/Home/AlienMessage';
 
 const Home = () => {
+    const scrollViewRef = useRef(null);
+    const animationRef = useRef(null);
+
+    const handleStartExplore = () => {
+        // Reinicia la animación del cohete
+        animationRef.current?.reset();
+        animationRef.current?.play();
+        
+        // Hace scroll suave hacia abajo después de un pequeño delay
+        setTimeout(() => {
+            scrollViewRef.current?.scrollTo({
+                y: 600, // Ajusta este valor según necesites
+                animated: true,
+            });
+        }, 500);
+    };
+
     return (
         <ImageBackground style={styles.fondo} source={fondo} resizeMode='cover'>
             <Header />
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-            {/* <StarField /> */}
-                <Text style={styles.title}>Explore & Discover</Text>
-
-                <View style={{ marginTop: 20 }}>
-                    <Video
-                        source={vide1}
-                        rate={1.0}
-                        volume={1.0}
-                        isMuted={false}
-                        resizeMode="cover"
-                        shouldPlay
-                        isLooping
-                        style={{ width: '100%', height: 250 }}
-                        useNativeControls={false}
-                    />
+            <ScrollView 
+                ref={scrollViewRef}
+                contentContainerStyle={styles.scrollContainer}
+                showsVerticalScrollIndicator={false}
+                bounces={true}
+                alwaysBounceVertical={false}
+            >
+                <View style={styles.vista1}>
+                    <Text style={styles.title}>Explore & Discover</Text>
+                    <View style={styles.videoContainer}>
+                        <Video
+                            source={vide1}
+                            rate={1.0}
+                            volume={1.0}
+                            isMuted={false}
+                            resizeMode="cover"
+                            shouldPlay
+                            isLooping
+                            style={{ 
+                                width: Dimensions.get('window').width - 20, 
+                                height: 250, 
+                                borderRadius: 10, 
+                            }}
+                            useNativeControls={false}
+                        />
+                    </View>
+                    <Text style={styles.title2}>Descubre el Universo</Text>
+                    <Text style={styles.description}>
+                        El sistema solar es el conjunto de planetas, asteroides, cometas y satélites que orbita la estrella central, el Sol.
+                    </Text>
+                    <View style={styles.boxBtn}>
+                        <TouchableOpacity
+                            style={styles.btnExplore}
+                            activeOpacity={0.7}
+                            onPress={handleStartExplore}
+                        >
+                            <Text style={styles.txtExplore}>Start Explore</Text>
+                            <LottieView
+                                ref={animationRef}
+                                source={require('../assets/Anim/Rocket.json')}
+                                style={styles.lottieAnimation}
+                                autoPlay
+                                loop
+                                speed={1.5}
+                            />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-
-                <Text style={styles.title2}>Card Planets</Text>
-
-                <View style={styles.planetsGrid}>
-                    {planets.map((planet, index) => (
-                        <View key={index} style={styles.planetCard}>
-                            <Image source={{ uri: planet.image }} style={styles.planetImage} />
-                            <Text style={styles.planetName}>{planet.name}</Text>
-                            <Text style={styles.planetDesc} numberOfLines={2}>{planet.description}</Text>
-                        </View>
-                    ))}
-                </View>
+                <NasaImageOfDay />
+                <VisitorCounter />
             </ScrollView>
+            <AlienMessage />
             <Footer active="Home" />
         </ImageBackground>
     );

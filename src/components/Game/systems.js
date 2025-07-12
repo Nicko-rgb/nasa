@@ -7,7 +7,7 @@ const GAME_HEIGHT = height - FOOTER_HEIGHT;
 
 let meteorId = 0;
 let meteorTimer = 0;
-const METEOR_INTERVAL = 300; // medio segundo
+const METEOR_INTERVAL = 3000; // medio segundo
 
 const Physics = (entities, { time, touches, dispatch }) => {
     let engine = entities.physics.engine;
@@ -72,6 +72,7 @@ const Physics = (entities, { time, touches, dispatch }) => {
     }
 
     return entities;
+    
 };
 
 export default Physics;
