@@ -1,6 +1,7 @@
 import Matter from 'matter-js';
 import Rocket from './Rocket';
 import Meteor from './Meteor';
+import Explosion from './Explosion';
 import { Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -30,5 +31,6 @@ export default () => {
     physics: { engine, world },
     rocket: { body: rocket, size: [50, 70], color: 'white', renderer: Rocket },
     meteor: { meteors: [], renderer: Meteor },
+    explosion: { active: false, x: 0, y: 0, timer: 0, renderer: Explosion },
   };
 };

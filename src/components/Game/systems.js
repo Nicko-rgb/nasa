@@ -7,7 +7,7 @@ const GAME_HEIGHT = height - FOOTER_HEIGHT;
 
 let meteorId = 0;
 let meteorTimer = 0;
-const METEOR_INTERVAL = 3000; // medio segundo
+const METEOR_INTERVAL = 500; // medio segundo
 
 const Physics = (entities, { time, touches, dispatch }) => {
     let engine = entities.physics.engine;
@@ -15,6 +15,14 @@ const Physics = (entities, { time, touches, dispatch }) => {
     
     // Asegurar que la gravedad esté desactivada
     engine.world.gravity.y = 0;
+    
+    // Procesar efectos de explosión
+    if (entities.explosion && entities.explosion.active) {
+        entities.explosion.timer += time.delta;
+        if (entities.explosion.timer > 500) { // 0.5 segundos
+            entities.explosion.active = false;
+        }
+    }
     
     Matter.Engine.update(engine, time.delta);
 
@@ -36,13 +44,15 @@ const Physics = (entities, { time, touches, dispatch }) => {
     // Meteoritos existentes
     entities.meteor.meteors.forEach((m, index) => {
         // Velocidad más lenta para los meteoritos
-        m.body.position.y += 0.3;
+        if (m.body && m.body.position) {
+            m.body.position.y += 0.3;
 
-        // Eliminar meteoritos que salen de la pantalla
-        if (m.body.position.y > GAME_HEIGHT + 50) {
-            Matter.World.remove(entities.physics.world, m.body);
-            entities.meteor.meteors.splice(index, 1);
-            return;
+            // Eliminar meteoritos que salen de la pantalla
+            if (m.body.position.y > GAME_HEIGHT + 50) {
+                Matter.World.remove(entities.physics.world, m.body);
+                entities.meteor.meteors.splice(index, 1);
+                return;
+            }
         }
 
         // Mejor detección de colisión
@@ -50,7 +60,8 @@ const Physics = (entities, { time, touches, dispatch }) => {
         const dy = Math.abs(m.body.position.y - rocket.position.y);
         const collisionDistance = 45; // Radio de colisión
         
-        if (dx < collisionDistance && dy < collisionDistance) {
+        if (m.body && m.body.position && dx < collisionDistance && dy < collisionDistance) {
+            dispatch({ type: 'collision', meteor: m });
             dispatch({ type: 'game-over' });
         }
     });
