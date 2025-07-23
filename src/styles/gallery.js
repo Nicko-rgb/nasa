@@ -11,7 +11,15 @@ export const styles = StyleSheet.create({
     container: {
         padding: 10,
         paddingBottom: 80,
-        paddingTop: 100,
+        paddingTop: 20,
+    },
+    titlee: {
+        textAlign: 'center',
+        color: 'white',
+        marginTop: 0,
+        marginBottom: 20,
+        fontSize: 25,
+        fontWeight: 800,
     },
     grid: {
         display: 'flex',

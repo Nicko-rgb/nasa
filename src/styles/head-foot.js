@@ -4,12 +4,10 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 export const styles = StyleSheet.create({
     header: {
-        position: 'absolute',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 10,
-        top: 30,
         zIndex: 10,
         paddingHorizontal: 5
     },
@@ -54,19 +52,13 @@ export const styles = StyleSheet.create({
     // =============================================================================================
     // STYLOS DE FOOTER
     footerContainer: {
-        position: 'absolute',
-        bottom: 0,
-        width: width,
         backgroundColor: '#222226',
-        // backgroundColor: '#1a1a2e',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-        height: 80,
-        // borderTopLeftRadius: 24,
-        // borderTopRightRadius: 24,
-        paddingBottom: 10,
-        paddingTop: 5,
+        minHeight: 60,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
         elevation: 20,
         shadowColor: 'white',
         shadowOffset: { width: 0, height: -3 },
@@ -94,7 +86,9 @@ export const styles = StyleSheet.create({
 
     centerWrapper: {
         alignItems: 'center',
+        justifyContent: 'flex-end',
         marginTop: -30,
+        flex: 1,
     },
 
     centerButton: {
@@ -126,6 +120,8 @@ export const styles = StyleSheet.create({
         fontSize: 11,
         marginTop: 4,
     },
+
+    
 
     // =============================================================================================
     // STYLOS DEL MODAL DE PERFIL

@@ -1,10 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Modal, ImageBackground } from 'react-native';
 import { GameEngine } from 'react-native-game-engine';
-import Footer from '../components/Footer/Footer';
+// import Footer from '../components/Footer/Footer';
 import createEntities from '../components/Game/entities';
 import Physics from '../components/Game/systems';
 import fondo1 from '../assets/imgs/fondo1.jpg';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { height } = Dimensions.get('window');
 const FOOTER_HEIGHT = 80;
@@ -60,33 +61,35 @@ const Game = () => {
         <View style={styles.container}>
             <View style={styles.gameWrapper}>
                 <ImageBackground source={fondo1} style={styles.background} resizeMode="cover">
-                    {running ? (
-                        <GameEngine
-                            systems={[Physics]}
-                            entities={createEntities()}
-                            running={running && !paused}
-                            onEvent={onEvent}
-                            style={styles.gameEngine}
-                            ref={gameEngineRef}
-                        >
-                            <Text style={styles.score}>Puntuación: {score}</Text>
-                            <Text style={styles.instructions}>Toca y arrastra para mover el cohete</Text>
-                            <TouchableOpacity onPress={togglePause} style={styles.pauseButton}>
-                                <Text style={styles.pauseButtonText}>{paused ? '▶' : '⏸'}</Text>
-                            </TouchableOpacity>
-                        </GameEngine>
-                    ) : (
-                        <View style={styles.centered}>
-                            <Text style={styles.title}>🚀 Juego de Meteoritos</Text>
-                            <Text style={styles.subtitle}>Esquiva los meteoritos y sobrevive el mayor tiempo posible</Text>
-                            <TouchableOpacity onPress={startGame} style={styles.startButton}>
-                                <Text style={styles.startButtonText}>Iniciar Juego</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
+                    <SafeAreaView style={{ flex: 1 }}>
+                        {running ? (
+                            <GameEngine
+                                systems={[Physics]}
+                                entities={createEntities()}
+                                running={running && !paused}
+                                onEvent={onEvent}
+                                style={styles.gameEngine}
+                                ref={gameEngineRef}
+                            >
+                                <Text style={styles.score}>Puntuación: {score}</Text>
+                                <Text style={styles.instructions}>Toca y arrastra para mover el cohete</Text>
+                                <TouchableOpacity onPress={togglePause} style={styles.pauseButton}>
+                                    <Text style={styles.pauseButtonText}>{paused ? '▶' : '⏸'}</Text>
+                                </TouchableOpacity>
+                            </GameEngine>
+                        ) : (
+                            <View style={styles.centered}>
+                                <Text style={styles.title}>🚀 Juego de Meteoritos</Text>
+                                <Text style={styles.subtitle}>Esquiva los meteoritos y sobrevive el mayor tiempo posible</Text>
+                                <TouchableOpacity onPress={startGame} style={styles.startButton}>
+                                    <Text style={styles.startButtonText}>Iniciar Juego</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </SafeAreaView>
                 </ImageBackground>
             </View>
-            
+
             <Modal
                 visible={gameOver}
                 transparent={true}
@@ -97,17 +100,17 @@ const Game = () => {
                         <Text style={styles.modalTitle}>¡Game Over!</Text>
                         <Text style={styles.modalText}>Tu puntuación final: {score}</Text>
                         <View style={styles.modalButtons}>
-                            <TouchableOpacity 
+                            <TouchableOpacity
                                 onPress={() => {
                                     setGameOver(false);
                                     startGame();
-                                }} 
+                                }}
                                 style={styles.modalButton}
                             >
                                 <Text style={styles.modalButtonText}>Jugar de nuevo</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity 
-                                onPress={() => setGameOver(false)} 
+                            <TouchableOpacity
+                                onPress={() => setGameOver(false)}
                                 style={styles.modalButton}
                             >
                                 <Text style={styles.modalButtonText}>Salir</Text>
@@ -116,7 +119,7 @@ const Game = () => {
                     </View>
                 </View>
             </Modal>
-            
+
             <Modal
                 visible={showPauseModal}
                 transparent={true}
@@ -125,8 +128,8 @@ const Game = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Juego Pausado</Text>
-                        <TouchableOpacity 
-                            onPress={togglePause} 
+                        <TouchableOpacity
+                            onPress={togglePause}
                             style={styles.modalButton}
                         >
                             <Text style={styles.modalButtonText}>Continuar</Text>
@@ -134,7 +137,7 @@ const Game = () => {
                     </View>
                 </View>
             </Modal>
-            <Footer active="Game" />
+            {/* <Footer active="Game" /> */}
         </View>
     );
 };
@@ -207,7 +210,7 @@ const styles = StyleSheet.create({
     },
     gameWrapper: {
         flex: 1,
-        marginBottom: FOOTER_HEIGHT,
+        marginBottom: 0,
         overflow: 'hidden',
     },
     background: {

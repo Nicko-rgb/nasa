@@ -1,27 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Home from './src/screens/Home';
-import Estrellas from './src/screens/Estrellas';
-import Planetas from './src/screens/Planetas';
-import Game from './src/screens/Game';
-import Gallery from './src/screens/Gallery';
-
-const Stack = createStackNavigator();
+import TabNavigator from './src/navigation/TabNavigator';
+import { StatusBar } from 'expo-status-bar';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export default function App() {
+    React.useEffect(() => {
+        NavigationBar.setBackgroundColorAsync('#333');
+        NavigationBar.setButtonStyleAsync('light');
+    }, []);
+
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <>
+            <StatusBar style="light" backgroundColor="transparent" translucent />
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Home">
-                    <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-                    <Stack.Screen name="Planets" component={Planetas} options={{ headerShown: false }} />
-                    <Stack.Screen name="Star" component={Estrellas} options={{ headerShown: false }} />
-                    <Stack.Screen name="Game" component={Game} options={{ headerShown: false }} />
-                    <Stack.Screen name="Gallery" component={Gallery} options={{ headerShown: false }} />
-                </Stack.Navigator>
+                <TabNavigator />
             </NavigationContainer>
-        </SafeAreaView>
+        </>
     );
 }

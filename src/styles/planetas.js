@@ -9,10 +9,10 @@ export const styles = StyleSheet.create({
     scrollContainer: {
         padding: 10,
         paddingBottom: 100,
-        paddingTop: 70,
+        paddingTop: 0,
     },
     title: {
-        fontSize: 24,
+        fontSize: 25,
         color: 'white',
         marginTop: 25,
         fontWeight: 800,

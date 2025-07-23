@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 20,
-        paddingTop: 100,
+        paddingTop: 20,
         flex: 1,
     },
     videoContainer: {
@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
         color: 'white',
         marginTop: 0,
         marginBottom: 20,
-        fontSize: 27,
+        fontSize: 25,
         fontWeight: 800,
     },
 
@@ -180,7 +180,7 @@ export const styles = StyleSheet.create({
     // Estilos para AlienMessage
     alienContainer: {
         position: 'absolute',
-        bottom: 80,
+        bottom: 20,
         width: '100%',
         height: 150,
     },

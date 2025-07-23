@@ -9,12 +9,15 @@ import {
     Modal,
     Pressable,
     ActivityIndicator,
-    Dimensions
+    Dimensions,
+    StyleSheet
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import fondo from '../assets/imgs/fondo1.jpg';
 import { styles } from '../styles/gallery';
-import Footer from '../components/Footer/Footer';
+// import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
+import AlienMessage from '../components/Home/AlienMessage';
 
 const screenWidth = Dimensions.get('window').width;
 const CARD_WIDTH = screenWidth * 0.48;
@@ -71,57 +74,66 @@ const Gallery = () => {
     }, []);
 
     return (
-        <ImageBackground style={styles.fondo} source={fondo} resizeMode='cover'>
-            <Header onSearch={fetchMedia} />
-            <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.grid}>
-                    {loading ? (
-                        <ActivityIndicator size="large" color="#fff" style={styles.loader} />
-                    ) : results.length === 0 ? (
-                        <Text style={styles.noResults}>No results found</Text>
-                    ) : (
-                        results.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                style={[styles.card, { height: item.imageHeight + 50 }]} // 60 para el texto
-                                onPress={() => openModal(item)}
-                            >
-                                <Image
-                                    source={{ uri: item.imageUrl }}
-                                    style={[styles.image, { height: item.imageHeight }]}
-                                />
-                                <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
-                            </TouchableOpacity>
-                        ))
-                    )}
-                </View>
-            </ScrollView>
-
-            <Footer active='Gallery' />
-
-            {/* Modal */}
-            <Modal
-                visible={modalVisible}
-                animationType="slide"
-                transparent={true}
-                onRequestClose={() => setModalVisible(false)}
-            >
-                <View style={styles.modalOverlay}>
-                    <View style={styles.modalContainer}>
-                        <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-                            <Text style={styles.detailTitle}>{selectedItem?.title}</Text>
-                            <Image source={{ uri: selectedItem?.imageUrl }} style={styles.detailImage} />
-                            {selectedItem?.description && (
-                                <Text style={styles.description}>{selectedItem.description}</Text>
-                            )}
-                        </ScrollView>
-                        <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
-                            <Text style={styles.closeButtonText}>Cerrar</Text>
-                        </Pressable>
+        <View style={{ flex: 1 }}>
+            <ImageBackground
+                source={require('../assets/imgs/fondo1.jpg')}
+                style={StyleSheet.absoluteFill}
+                resizeMode="cover"
+            />
+            <SafeAreaView style={{ flex: 1 }}>
+                <Header onSearch={fetchMedia} />
+                <ScrollView contentContainerStyle={styles.container}>
+                    <Text style={styles.titlee}>Gallery</Text>
+                    <View style={styles.grid}>
+                        {loading ? (
+                            <ActivityIndicator size="large" color="#fff" style={styles.loader} />
+                        ) : results.length === 0 ? (
+                            <Text style={styles.noResults}>No results found</Text>
+                        ) : (
+                            results.map((item, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={[styles.card, { height: item.imageHeight + 50 }]} // 60 para el texto
+                                    onPress={() => openModal(item)}
+                                >
+                                    <Image
+                                        source={{ uri: item.imageUrl }}
+                                        style={[styles.image, { height: item.imageHeight }]}
+                                    />
+                                    <Text style={styles.title} numberOfLines={2}>{item.title}</Text>
+                                </TouchableOpacity>
+                            ))
+                        )}
                     </View>
-                </View>
-            </Modal>
-        </ImageBackground>
+                </ScrollView>
+                <AlienMessage />
+
+                {/* <Footer active='Gallery' /> */}
+
+                {/* Modal */}
+                <Modal
+                    visible={modalVisible}
+                    animationType="slide"
+                    transparent={true}
+                    onRequestClose={() => setModalVisible(false)}
+                >
+                    <View style={styles.modalOverlay}>
+                        <View style={styles.modalContainer}>
+                            <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+                                <Text style={styles.detailTitle}>{selectedItem?.title}</Text>
+                                <Image source={{ uri: selectedItem?.imageUrl }} style={styles.detailImage} />
+                                {selectedItem?.description && (
+                                    <Text style={styles.description}>{selectedItem.description}</Text>
+                                )}
+                            </ScrollView>
+                            <Pressable style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                                <Text style={styles.closeButtonText}>Cerrar</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
+            </SafeAreaView>
+        </View>
     );
 };
 
